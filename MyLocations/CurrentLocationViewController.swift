@@ -11,9 +11,10 @@ import CoreLocation
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
     
-    //stores current location
+    //stores current location as nil until Core Location returns valid CCLocation object
     var location: CLLocation?
-    
+    var updatingLocation = false
+    var lastLocationError: Error?
     
     //    MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -56,9 +57,28 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("didFailWithError \(error)")
+        
+        //if locationManager is unable to find location
+        if (error as NSError).code == CLError.locationUnknown.rawValue {
+            return
+        }
+        
+        lastLocationError = error
+        
+        stopLocationManager()
+        updateLabels()
     }
     
-    func locationManager(_ manager: CLLocationManagerDelegate, didUpdateLocations locations: [CLLocation]) {
+    func stopLocationManager() {
+        if updatingLocation {
+            locationManager.stopUpdatingLocation()
+            locationManager.delegate = nil
+            updatingLocation = false
+        }
+    }
+    
+
+    private func locationManager(_ manager: CLLocationManagerDelegate, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
         
@@ -66,7 +86,10 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         updateLabels()
     }
     
+    
     func updateLabels() {
+        
+        // Unwrap location, convert to String, set to label text
         if let location = location {
             latitudeLabel.text = String(format: "%.8f", location.coordinate.latitude)
             longitudeLabel.text = String(format: "%.8f", location.coordinate.longitude)
@@ -78,7 +101,6 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             longitudeLabel.text = ""
             addressLabel.text = ""
             tagButton.isHidden = true
-            messageLabel.text = "Tap Get My Location To Start"
         }
     }
     
