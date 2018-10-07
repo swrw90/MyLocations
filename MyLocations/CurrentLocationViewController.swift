@@ -90,14 +90,17 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
         
+        //if location result takes longer than 5 seconds result will be most recently found location
         if newLocation.timestamp.timeIntervalSinceNow < -5 {
             return
         }
         
+        //if horizontal accuracy is lower than 0 ignor location results
         if newLocation.horizontalAccuracy < 0 {
             return
         }
         
+        //if location nil this is first update, compares accuracy and sets location
         if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy{
             location = newLocation
             lastLocationError = nil
@@ -147,7 +150,16 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             }
             messageLabel.text = statusMessage
         }
+        configureGetButton()
     }
+    
+    //if app is updating button text changes to stop
+    func configureGetButton() {
+        if updatingLocation {
+            getButton.setTitle("Stop", for: .normal)
+        }
+    }
+    
     
     //    MARK: - Handle location permission errors
     
