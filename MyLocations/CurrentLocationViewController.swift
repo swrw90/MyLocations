@@ -11,6 +11,8 @@ import CoreLocation
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
     
+    var timer: Timer?
+    
     // Stores current location as nil until Core Location returns valid CCLocation object
     var location: CLLocation?
     var updatingLocation = false
@@ -74,17 +76,24 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
         
-        //if location result takes longer than 5 seconds result will be most recently found location
+        // If location result takes longer than 5 seconds result will be most recently found location
         if newLocation.timestamp.timeIntervalSinceNow < -5 {
             return
         }
         
-        //if horizontal accuracy is lower than 0 ignor location results
+        // If horizontal accuracy is lower than 0 ignore location results
         if newLocation.horizontalAccuracy < 0 {
             return
         }
         
-        //if location nil this is first update, compares accuracy and sets location
+        // Calculate distance between new reading and previous
+        var distance = CLLocationDistance( Double.greatestFiniteMagnitude)
+        
+        if let location = location {
+            distance = newLocation.distance(from: location)
+        }
+        
+        // If location nil this is first update, compares accuracy and sets location
         if location == nil || location!.horizontalAccuracy > newLocation.horizontalAccuracy{
             location = newLocation
             lastLocationError = nil
@@ -92,6 +101,11 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             if newLocation.horizontalAccuracy <= locationManager.desiredAccuracy {
                 print("*** We're done")
                 stopLocationManager()
+            }
+            
+            // Forces reverseGeocoding to obtain final most recent location
+            if distance > 0 {
+                performingReverseGeocoding = false
             }
             updateLabels()
             
@@ -101,12 +115,13 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 
                 performingReverseGeocoding = true
                 
-                //               Tell CLGeocoder object to reverse geocode the location, execute code block as soon as the geocoding is completed
+                // Tell CLGeocoder object to reverse geocode the location, execute code block as soon as the geocoding is completed
                 geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
                     placemarks, error in
                     self.lastGeocodingError = error
                     
-                    //check placemarks array contains at least one placemark, set last placemark in array to placemark property
+                    // Check placemarks array contains at least one placemark, set last placemark in array to placemark property
+                    // Else the coordinates arent significantly differnt in last 10sec stop fetching and use current result
                     if error == nil, let p = placemarks, !p.isEmpty {
                         self.placemark = p.last!
                     } else {
@@ -116,6 +131,13 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                     self.performingReverseGeocoding = false
                     self.updateLabels()
                 })
+            } else if distance < 1 {
+                let timeInterval = newLocation.timestamp.timeIntervalSince(location!.timestamp)
+                if timeInterval > 10 {
+                    print("*** Force Done")
+                }
+                stopLocationManager()
+                updateLabels()
             }
         }
     }
@@ -137,6 +159,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     func startLocationManager() {
         if CLLocationManager.locationServicesEnabled() {
+            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(didTimeOut), userInfo: nil, repeats: false)
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -146,12 +169,24 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     func stopLocationManager() {
         if updatingLocation {
+            if let timer = timer{
+                timer.invalidate()
+            }
             locationManager.stopUpdatingLocation()
             locationManager.delegate = nil
             updatingLocation = false
         }
     }
     
+    // Always called after 1min with or without valid location unless stopLocationManager cancels timer first
+    @objc func didTimeOut() {
+        print("*** Time Out")
+        if location == nil {
+            stopLocationManager()
+            lastLocationError = NSError(domain: "MyLocationsErrorDomain", code: 1, userInfo: nil)
+            updateLabels()
+        }
+    }
     
     func updateLabels() {
         
