@@ -58,6 +58,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         } else {
             location = nil
             lastLocationError = nil
+            placemark = nil
+            lastGeocodingError = nil
             startLocationManager()
         }
         updateLabels()
@@ -99,16 +101,20 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 
                 performingReverseGeocoding = true
                 
-//               Tell CLGeocoder object to reverse geocode the location, execute code block as soon as the geocoding is completed
+                //               Tell CLGeocoder object to reverse geocode the location, execute code block as soon as the geocoding is completed
                 geocoder.reverseGeocodeLocation(newLocation, completionHandler: {
                     placemarks, error in
-                    if let error = error {
-                        print("*** Reverse Geocoding error: \(error.localizedDescription)")
-                        return
+                    self.lastGeocodingError = error
+                    
+                    //check placemarks array contains at least one placemark, set last placemark in array to placemark property
+                    if error == nil, let p = placemarks, !p.isEmpty {
+                        self.placemark = p.last!
+                    } else {
+                        self.placemark = nil
                     }
-                    if let places = placemarks {
-                        print("*** Found places: \(places)")
-                    }
+                    
+                    self.performingReverseGeocoding = false
+                    self.updateLabels()
                 })
             }
         }
@@ -162,6 +168,16 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             addressLabel.text = ""
             tagButton.isHidden = true
             
+            
+            //show address to user
+            if let placemark = placemark {
+                addressLabel.text = string(from: placemark)
+            } else if performingReverseGeocoding {
+                addressLabel.text = "Searching for address"
+            } else if lastGeocodingError != nil {
+                addressLabel.text = "Error Finding Address"
+            }
+            
             //Determine current state of app and set messageLabel at top of screen
             let statusMessage: String
             if let error = lastLocationError as NSError? {
@@ -191,6 +207,40 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         if updatingLocation {
             getButton.setTitle("Stop", for: .normal)
         }
+    }
+    
+    // Format CLPlacemark into string
+    func string(from placemark: CLPlacemark) -> String {
+        var line1 = ""
+        
+        // If placemark has house name
+        if let s = placemark.subThoroughfare {
+            line1 += s + " "
+        }
+        
+        // If placemark has street name
+        if let s = placemark.subThoroughfare {
+            line1 += s
+        }
+        
+        var line2 = ""
+        
+        // If placemark has city
+        if let s = placemark.locality {
+            line2 += s + " "
+        }
+        
+        // If placemark has state or province
+        if let s = placemark.administrativeArea {
+            line2 += s + " "
+        }
+        
+        // If placemark has ziopcode
+        if let s = placemark.postalCode {
+            line2 += s
+        }
+        
+        return line1 + "\n" + line2
     }
     
     
