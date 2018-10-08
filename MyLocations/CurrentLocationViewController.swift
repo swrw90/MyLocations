@@ -224,7 +224,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                 }
             } else if !CLLocationManager.locationServicesEnabled(){
                 //if services completely disabled for device
-                statusMessage = "Locatiion Services Disabled"
+                statusMessage = "Location Services Disabled"
             } else if updatingLocation {
                 //waiting for location info to return
                 statusMessage = "Searching..."
