@@ -71,8 +71,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     //    MARK: - LocationManagerDelegate
     let locationManager = CLLocationManager()
     
-    //handle updating the location and it's labels
-    private func locationManager(_ manager: CLLocationManagerDelegate, didUpdateLocations locations: [CLLocation]) {
+    // handle updating the location and it's labels
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let newLocation = locations.last!
         print("didUpdateLocations \(newLocation)")
         
@@ -142,6 +142,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         }
     }
     
+    
     //handle error if unable to get location
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("didFailWithError \(error)")
@@ -159,7 +160,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     func startLocationManager() {
         if CLLocationManager.locationServicesEnabled() {
-            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(didTimeOut), userInfo: nil, repeats: false)
+            //            timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(didTimeOut), userInfo: nil, repeats: false)
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -197,12 +198,6 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             
             tagButton.isHidden = false
             messageLabel.text = ""
-        } else {
-            latitudeLabel.text = ""
-            longitudeLabel.text = ""
-            addressLabel.text = ""
-            tagButton.isHidden = true
-            
             
             //show address to user
             if let placemark = placemark {
@@ -212,6 +207,14 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             } else if lastGeocodingError != nil {
                 addressLabel.text = "Error Finding Address"
             }
+            
+            
+        } else {
+            latitudeLabel.text = ""
+            longitudeLabel.text = ""
+            addressLabel.text = ""
+            tagButton.isHidden = true
+            
             
             //Determine current state of app and set messageLabel at top of screen
             let statusMessage: String
@@ -254,7 +257,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         }
         
         // If placemark has street name
-        if let s = placemark.subThoroughfare {
+        if let s = placemark.thoroughfare {
             line1 += s
         }
         
