@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C7A29E9C216C13380009F93D /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A29E9B216C13380009F93D /* LocationDetailsViewController.swift */; };
+		C7A29E9F216C50FB0009F93D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A29E9E216C50FB0009F93D /* CoreLocation.framework */; };
 		C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D1DE972168521C00FDF0AE /* AppDelegate.swift */; };
 		C7D1DE9A2168521C00FDF0AE /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D1DE992168521C00FDF0AE /* CurrentLocationViewController.swift */; };
 		C7D1DE9C2168521C00FDF0AE /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D1DE9B2168521C00FDF0AE /* SecondViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C7A29E9B216C13380009F93D /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
+		C7A29E9E216C50FB0009F93D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C7D1DE942168521C00FDF0AE /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7D1DE972168521C00FDF0AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7D1DE992168521C00FDF0AE /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
@@ -31,17 +35,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7A29E9F216C50FB0009F93D /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7A29E9D216C50FB0009F93D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7A29E9E216C50FB0009F93D /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C7D1DE8B2168521C00FDF0AE = {
 			isa = PBXGroup;
 			children = (
 				C7D1DE962168521C00FDF0AE /* MyLocations */,
 				C7D1DE952168521C00FDF0AE /* Products */,
+				C7A29E9D216C50FB0009F93D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +72,7 @@
 			children = (
 				C7D1DE972168521C00FDF0AE /* AppDelegate.swift */,
 				C7D1DE992168521C00FDF0AE /* CurrentLocationViewController.swift */,
+				C7A29E9B216C13380009F93D /* LocationDetailsViewController.swift */,
 				C7D1DE9B2168521C00FDF0AE /* SecondViewController.swift */,
 				C7D1DE9D2168521C00FDF0AE /* Main.storyboard */,
 				C7D1DEA02168521E00FDF0AE /* Assets.xcassets */,
@@ -138,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7A29E9C216C13380009F93D /* LocationDetailsViewController.swift in Sources */,
 				C7D1DE9C2168521C00FDF0AE /* SecondViewController.swift in Sources */,
 				C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */,
 				C7D1DE9A2168521C00FDF0AE /* CurrentLocationViewController.swift in Sources */,
@@ -287,6 +303,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2DJL5484PS;
 				INFOPLIST_FILE = MyLocations/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -304,6 +321,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2DJL5484PS;
 				INFOPLIST_FILE = MyLocations/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
