@@ -21,6 +21,7 @@ class LocationDetailsViewController: UITableViewController {
     var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var placemark: CLPlacemark?
     
+    
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,9 @@ class LocationDetailsViewController: UITableViewController {
         dateLabel.text = format(date: Date())
     }
     
+    
     //MARK: - Table View Delegates
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 && indexPath.row == 0 {
             return 88
@@ -71,6 +74,7 @@ class LocationDetailsViewController: UITableViewController {
     @IBAction func cancel() {
         navigationController?.popViewController(animated: true)
     }
+    
     
     //MARK: - Private Methods
     func string(from placemark: CLPlacemark) -> String {
