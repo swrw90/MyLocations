@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */; };
 		C7A29E9C216C13380009F93D /* LocationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7A29E9B216C13380009F93D /* LocationDetailsViewController.swift */; };
 		C7A29E9F216C50FB0009F93D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A29E9E216C50FB0009F93D /* CoreLocation.framework */; };
 		C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7D1DE972168521C00FDF0AE /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		C7A29E9B216C13380009F93D /* LocationDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailsViewController.swift; sourceTree = "<group>"; };
 		C7A29E9E216C50FB0009F93D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C7D1DE942168521C00FDF0AE /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +80,7 @@
 				C7D1DEA02168521E00FDF0AE /* Assets.xcassets */,
 				C7D1DEA22168521E00FDF0AE /* LaunchScreen.storyboard */,
 				C7D1DEA52168521E00FDF0AE /* Info.plist */,
+				C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -156,6 +159,7 @@
 				C7A29E9C216C13380009F93D /* LocationDetailsViewController.swift in Sources */,
 				C7D1DE9C2168521C00FDF0AE /* SecondViewController.swift in Sources */,
 				C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */,
+				C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */,
 				C7D1DE9A2168521C00FDF0AE /* CurrentLocationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
