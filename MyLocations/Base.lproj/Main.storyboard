@@ -145,7 +145,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="l2f-gx-LFe" kind="show" id="5GB-m7-W2c"/>
+                                            <segue destination="l2f-gx-LFe" kind="show" identifier="PickCategory" id="5GB-m7-W2c"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -308,7 +308,7 @@
         <scene sceneID="VNZ-L7-ZwF">
             <objects>
                 <tableViewController id="l2f-gx-LFe" customClass="CategoryPickerViewController" customModule="MyLocations" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5rC-2L-phb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5rC-2L-phb">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -330,7 +330,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="T1M-bh-omJ" kind="unwind" unwindAction="categoryPickerDidPickCategory:" id="zxe-Fa-pxu"/>
+                                    <segue destination="T1M-bh-omJ" kind="unwind" identifier="PickedCategory" unwindAction="categoryPickerDidPickCategory:" id="zxe-Fa-pxu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

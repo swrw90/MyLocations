@@ -41,6 +41,10 @@ class LocationDetailsViewController: UITableViewController {
         }
         
         dateLabel.text = format(date: Date())
+        
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        gestureRecognizer.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(gestureRecognizer)
     }
     
     
@@ -60,6 +64,19 @@ class LocationDetailsViewController: UITableViewController {
             }
         }
 
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if indexPath.section == 0 || indexPath.section == 1  {
+           return indexPath
+        } else {
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            descriptionTextView.becomeFirstResponder()
+        }
+    }
     
     // MARK: - Outlets
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -68,6 +85,7 @@ class LocationDetailsViewController: UITableViewController {
     @IBOutlet weak var longitudeLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    
     
     // MARK: - Actions
     @IBAction func done() {
@@ -83,6 +101,17 @@ class LocationDetailsViewController: UITableViewController {
         categoryName = controller.selectedCategoryName
         categoryLabel.text = categoryName
     }
+    
+    @objc func hideKeyboard(_ gestureRecognizer: UITapGestureRecognizer) {
+        let point = gestureRecognizer.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: point)
+        
+        if indexPath != nil && indexPath!.section == 0 && indexPath!.row == 0 {
+            return
+        }
+        descriptionTextView.resignFirstResponder()
+    }
+    
     
     //MARK: - Private Methods
     func string(from placemark: CLPlacemark) -> String {

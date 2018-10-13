@@ -11,10 +11,10 @@ import UIKit
 
 class CategoryPickerViewController: UITableViewController {
     var selectedCategoryName = ""
-    var selectedIndexPath = IndexPath()
-    
+
     let categories = ["No Category", "Apple Store", "Bar", "Bookstore", "Club", "Grocery Store", "Historic Building", "House", "Icecream Vendor", "Landmark", "Park"]
     
+    var selectedIndexPath = IndexPath()
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -48,6 +48,7 @@ class CategoryPickerViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(selectedIndexPath)
         if indexPath.row != selectedIndexPath.row {
             if let newCell = tableView.cellForRow(at: indexPath) {
                 newCell.accessoryType = .checkmark
@@ -61,8 +62,7 @@ class CategoryPickerViewController: UITableViewController {
     
     
     // MARK:- Navigation
-    override func prepare(for segue: UIStoryboardSegue,
-                          sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PickedCategory" {
             let cell = sender as! UITableViewCell
             if let indexPath = tableView.indexPath(for: cell) {
