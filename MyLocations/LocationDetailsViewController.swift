@@ -14,7 +14,7 @@ private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .medium
     formatter.timeStyle = .short
-   
+    
     return formatter
 }()
 
@@ -54,19 +54,19 @@ class LocationDetailsViewController: UITableViewController {
         if indexPath.section == 0 && indexPath.row == 0 {
             return 88
         } else if indexPath.section == 2 && indexPath.row == 2 {
-                addressLabel.frame.size = CGSize(width: view.bounds.size.width - 120, height: 10000)
-                addressLabel.sizeToFit()
-                addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 16
-                
-                return addressLabel.frame.size.height + 20
-            } else {
-                return 44
-            }
+            addressLabel.frame.size = CGSize(width: view.bounds.size.width - 120, height: 10000)
+            addressLabel.sizeToFit()
+            addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 16
+            
+            return addressLabel.frame.size.height + 20
+        } else {
+            return 44
         }
-
+    }
+    
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if indexPath.section == 0 || indexPath.section == 1  {
-           return indexPath
+            return indexPath
         } else {
             return nil
         }
@@ -92,10 +92,10 @@ class LocationDetailsViewController: UITableViewController {
         let hudView = HudView.hud(inView: navigationController!.view, animated: true)
         hudView.text = "Tagged"
         
-        let delayInSeconds = 0.6
-        DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds, execute: {
+        afterDelay(0.6) {
+            hudView.hide()
             self.navigationController?.popViewController(animated: true)
-        })
+        }
     }
     
     @IBAction func cancel() {
