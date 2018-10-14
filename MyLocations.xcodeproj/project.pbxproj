@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */; };
+		C76341B721730B270028BFFC /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B521730B270028BFFC /* Location+CoreDataClass.swift */; };
+		C76341B821730B270028BFFC /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */; };
 		C77A4F372172ADA100B90E4B /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F362172ADA100B90E4B /* HudView.swift */; };
 		C77A4F392172C13E00B90E4B /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F382172C13E00B90E4B /* Functions.swift */; };
 		C77A4F3C2173013000B90E4B /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F3A2173013000B90E4B /* DataModel.xcdatamodeld */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
+		C76341B521730B270028BFFC /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C77A4F362172ADA100B90E4B /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		C77A4F382172C13E00B90E4B /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		C77A4F3B2173013000B90E4B /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 		C7D1DE8B2168521C00FDF0AE = {
 			isa = PBXGroup;
 			children = (
+				C76341B521730B270028BFFC /* Location+CoreDataClass.swift */,
+				C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */,
 				C77A4F362172ADA100B90E4B /* HudView.swift */,
 				C7D1DE962168521C00FDF0AE /* MyLocations */,
 				C7D1DE952168521C00FDF0AE /* Products */,
@@ -169,8 +175,10 @@
 				C77A4F3C2173013000B90E4B /* DataModel.xcdatamodeld in Sources */,
 				C7D1DE9C2168521C00FDF0AE /* SecondViewController.swift in Sources */,
 				C77A4F372172ADA100B90E4B /* HudView.swift in Sources */,
+				C76341B821730B270028BFFC /* Location+CoreDataProperties.swift in Sources */,
 				C77A4F392172C13E00B90E4B /* Functions.swift in Sources */,
 				C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */,
+				C76341B721730B270028BFFC /* Location+CoreDataClass.swift in Sources */,
 				C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */,
 				C7D1DE9A2168521C00FDF0AE /* CurrentLocationViewController.swift in Sources */,
 			);
