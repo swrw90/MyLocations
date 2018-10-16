@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreLocation
+import CoreData
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
     
     var timer: Timer?
+    var managedObjectContext: NSManagedObjectContext!
     
     // Stores current location as nil until Core Location returns valid CCLocation object
     var location: CLLocation?
@@ -315,6 +317,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             let controller = segue.destination as! LocationDetailsViewController
             controller.coordinate = location!.coordinate
             controller.placemark = placemark
+            controller.managedObjectContext = managedObjectContext
         }
     }
 }
