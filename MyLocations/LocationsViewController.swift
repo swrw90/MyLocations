@@ -14,42 +14,72 @@ class LocationsViewController: UITableViewController {
     var managedObjectContext: NSManagedObjectContext!
     
     // Contains a list of Location objects
-    var locations = [Location]()
+    lazy var fetchedResultsController: NSFetchedResultsController<Location> = {
+        let fetchRequest = NSFetchRequest<Location>()
+        
+        let entity = Location.entity()
+        fetchRequest.entity = entity
+        
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        fetchRequest.fetchBatchSize = 20
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext, sectionNameKeyPath: nil, cacheName: "Locations")
+        
+        fetchedResultsController.delegate = self as! NSFetchedResultsControllerDelegate
+        return fetchedResultsController
+    }()
     
     
     //MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Tells fetchRequest to look for Location entities
-        let fetchRequest = NSFetchRequest<Location>()
-        let entity = Location.entity()
-        fetchRequest.entity = entity
-        
-        // Sort by date, Location objects that the user added first will be at the top of the list
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        // Set locations value to fetch result
+        performFetch()
+    }
+    
+    
+    // MARK:- Private methods
+    func performFetch() {
         do {
-            locations = try
-            managedObjectContext.fetch(fetchRequest)
+            try fetchedResultsController.performFetch()
         } catch {
             fatalCoreDataError(error)
         }
     }
     
+    deinit {
+        fetchedResultsController.delegate = nil
+    }
+    
+    
     //MARK: - Table View Delegates
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locations.count
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell( withIdentifier: "LocationCell", for: indexPath) as! LocationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "LocationCell", for: indexPath) as! LocationCell
+        
+        let location = fetchedResultsController.object(at: indexPath)
+        cell.configure(for: location)
+        
+        return cell
+    }
+    
+    //MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "Edit Location" {
+            let controller = segue.destination as! LocationDetailsViewController
+            controller.managedObjectContext = managedObjectContext
             
-            let location = locations[indexPath.row]
-            cell.configure(for: location)
-            
-            return cell
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell) {
+                let location = fetchedResultsController.object(at: indexPath)
+                controller.locationToEdit = location
+            }
+        }
     }
 }
+
+
