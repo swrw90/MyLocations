@@ -23,9 +23,9 @@ class LocationDetailsViewController: UITableViewController {
     var coordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var placemark: CLPlacemark?
     var categoryName = "No Category"
-    var managedObjectContext: NSManagedObjectContext!
     var date = Date()
     var descriptionText = ""
+    var managedObjectContext: NSManagedObjectContext!
     
     var locationToEdit: Location? {
         // When value is set to locationToEdit update LocationsViewController instance variables
