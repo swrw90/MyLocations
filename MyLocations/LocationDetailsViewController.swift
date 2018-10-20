@@ -205,3 +205,15 @@ class LocationDetailsViewController: UITableViewController {
     }
 }
 
+extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    //    Create UIImagePickerController instance, set its properties to configure the picker, set its delegate, and then present it
+    func takePhotoWithCamera() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+}
+
