@@ -43,6 +43,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let controller2 = navController.viewControllers.first as! LocationsViewController
             controller2.managedObjectContext = managedObjectContext
+            
+//          Force the LocationsViewController to load its view immediately when the app starts up
+            let _ = controller2.view
         }
         print(applicationDocumentDirectory)
         return true

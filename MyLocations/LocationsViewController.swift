@@ -37,6 +37,8 @@ class LocationsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         performFetch()
+        
+//        Triggers an edit mode that lets you delete rows
         navigationItem.rightBarButtonItem = editButtonItem
     }
     
@@ -70,6 +72,7 @@ class LocationsViewController: UITableViewController {
         return cell
     }
     
+    //    Enables swipe-to-delete
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let location = fetchedResultsController.object(at:
@@ -107,7 +110,11 @@ class LocationsViewController: UITableViewController {
     }
 }
 
-// MARK:- NSFetchedResultsController Delegate Extension
+
+// MARK: - NSFetchedResultsController Delegate Extension
+// NSFetchedResultsController will invoke these methods to let you know that certain objects were inserted, removed, or just updated.
+// In response, the corresponding methods are called on the UITableView to insert, remove or update rows
+
 extension LocationsViewController:
 NSFetchedResultsControllerDelegate {
     
