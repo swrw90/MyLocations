@@ -62,7 +62,7 @@ class MapViewController: UIViewController {
     }
     
     
-    // MARK:- Navigation
+    // MARK: - Navigation
     
     // Get Location object to edit from locations array, use tag property of sender button as the index in that array
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
