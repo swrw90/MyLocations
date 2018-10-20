@@ -26,6 +26,7 @@ class LocationDetailsViewController: UITableViewController {
     var date = Date()
     var descriptionText = ""
     var managedObjectContext: NSManagedObjectContext!
+    var image: UIImage?
     
     var locationToEdit: Location? {
         // When value is set to locationToEdit update LocationsViewController instance variables
@@ -71,15 +72,21 @@ class LocationDetailsViewController: UITableViewController {
     //MARK: - Table View Delegates
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 0 {
+        
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
             return 88
-        } else if indexPath.section == 2 && indexPath.row == 2 {
-            addressLabel.frame.size = CGSize(width: view.bounds.size.width - 120, height: 10000)
-            addressLabel.sizeToFit()
-            addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 16
             
+        case (1, _):
+            return imageView.isHidden ? 44 : 280
+            
+        case (2, 2):
+            addressLabel.frame.size = CGSize(width: view.bounds.size.width - 115, height: 10000)
+            addressLabel.sizeToFit()
+            addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 15
             return addressLabel.frame.size.height + 20
-        } else {
+            
+        default:
             return 44
         }
     }
@@ -96,7 +103,10 @@ class LocationDetailsViewController: UITableViewController {
         if indexPath.section == 0 && indexPath.row == 0 {
             descriptionTextView.becomeFirstResponder()
         } else if indexPath.section == 1 && indexPath.row == 0 {
-            pickPhoto()        }
+            // Deselects the Add Photo row
+            tableView.deselectRow(at: indexPath, animated: true)
+            pickPhoto()
+        }
     }
     
     // MARK: - Outlets
@@ -106,6 +116,8 @@ class LocationDetailsViewController: UITableViewController {
     @IBOutlet weak var longitudeLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var addPhotoLabel: UILabel!
     
     
     // MARK: - Actions
@@ -196,6 +208,14 @@ class LocationDetailsViewController: UITableViewController {
         return dateFormatter.string(from: date)
     }
     
+//    Put image from parameter into image view, make image view visible, give it dimensions. Hide addPhoto label so it doesnt overlap imageView
+    func show(image: UIImage) {
+        imageView.image = image
+        imageView.isHidden = false
+        imageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
+        addPhotoLabel.isHidden = true
+    }
+    
     
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -220,6 +240,14 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     
     // MARK:- Image Picker Delegates
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        image = info[UIImagePickerControllerEditedImage] as? UIImage
+        
+        if let theImage = image {
+            show(image: theImage)
+        }
+        
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
     
