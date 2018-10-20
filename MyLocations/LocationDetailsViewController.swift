@@ -218,6 +218,7 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
         present(imagePicker, animated: true, completion: nil)
     }
     
+    
     // MARK:- Image Picker Delegates
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         dismiss(animated: true, completion: nil)
@@ -225,6 +226,14 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func choosePhotoFromLibrary() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
