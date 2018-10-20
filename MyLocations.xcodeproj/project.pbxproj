@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */; };
 		C736696F2179725000F4007D /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C736696E2179725000F4007D /* LocationCell.swift */; };
+		C7366971217AEE6100F4007D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7366970217AEE6100F4007D /* MapKit.framework */; };
+		C7366973217AEF2400F4007D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7366972217AEF2400F4007D /* MapViewController.swift */; };
 		C76341B721730B270028BFFC /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B521730B270028BFFC /* Location+CoreDataClass.swift */; };
 		C76341B821730B270028BFFC /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */; };
 		C76341BA21793EBA0028BFFC /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B921793EBA0028BFFC /* LocationsViewController.swift */; };
@@ -28,6 +30,8 @@
 /* Begin PBXFileReference section */
 		C726768E2171424900D06CA2 /* CategoryPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerViewController.swift; sourceTree = "<group>"; };
 		C736696E2179725000F4007D /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		C7366970217AEE6100F4007D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C7366972217AEF2400F4007D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C76341B521730B270028BFFC /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C76341B921793EBA0028BFFC /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7366971217AEE6100F4007D /* MapKit.framework in Frameworks */,
 				C7A29E9F216C50FB0009F93D /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +66,7 @@
 		C7A29E9D216C50FB0009F93D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C7366970217AEE6100F4007D /* MapKit.framework */,
 				C7A29E9E216C50FB0009F93D /* CoreLocation.framework */,
 			);
 			name = Frameworks;
@@ -69,6 +75,7 @@
 		C7D1DE8B2168521C00FDF0AE = {
 			isa = PBXGroup;
 			children = (
+				C7366972217AEF2400F4007D /* MapViewController.swift */,
 				C76341B521730B270028BFFC /* Location+CoreDataClass.swift */,
 				C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */,
 				C77A4F362172ADA100B90E4B /* HudView.swift */,
@@ -138,6 +145,11 @@
 				TargetAttributes = {
 					C7D1DE932168521C00FDF0AE = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -183,6 +195,7 @@
 				C77A4F372172ADA100B90E4B /* HudView.swift in Sources */,
 				C76341BA21793EBA0028BFFC /* LocationsViewController.swift in Sources */,
 				C76341B821730B270028BFFC /* Location+CoreDataProperties.swift in Sources */,
+				C7366973217AEF2400F4007D /* MapViewController.swift in Sources */,
 				C736696F2179725000F4007D /* LocationCell.swift in Sources */,
 				C77A4F392172C13E00B90E4B /* Functions.swift in Sources */,
 				C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */,
