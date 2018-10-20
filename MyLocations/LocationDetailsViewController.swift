@@ -224,6 +224,18 @@ class LocationDetailsViewController: UITableViewController {
             controller.selectedCategoryName = categoryName
         }
     }
+    
+    
+    //MARK: - Notifications
+    // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
+    func listenForBackgroundNotification() {
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { _ in
+            if self.presentedViewController != nil {
+                self.dismiss(animated: false, completion: nil)
+                                                }
+            self.descriptionTextView.resignFirstResponder()
+        }
+    }
 }
 
 extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
