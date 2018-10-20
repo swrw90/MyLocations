@@ -12,8 +12,19 @@ import MapKit
 
 
 class MapViewController: UIViewController {
-    var managedObjectContext: NSManagedObjectContext!
     var locations = [Location]()
+    
+    // didSet block tells the NotificationCenter to add an observer for the NSManagedObjectContextObjectsDidChange notification
+    var managedObjectContext: NSManagedObjectContext! {
+        didSet {
+            NotificationCenter.default.addObserver(forName: Notification.Name.NSManagedObjectContextObjectsDidChange, object: managedObjectContext, queue: OperationQueue.main) { notification in
+                if self.isViewLoaded {
+                    self.updateLocations()
+                    
+                }
+            }
+        }
+    }
     
     
     //    MARK: - Lifecycle Methods
@@ -47,9 +58,23 @@ class MapViewController: UIViewController {
     }
     
     @objc func showLocationDetails(_ sender: UIButton) {
-    
+        performSegue(withIdentifier: "EditLocation", sender: sender)
     }
     
+    
+    // MARK:- Navigation
+    
+    // Get Location object to edit from locations array, use tag property of sender button as the index in that array
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditLocation" {
+            let controller = segue.destination as! LocationDetailsViewController
+            controller.managedObjectContext = managedObjectContext
+            
+            let button = sender as! UIButton
+            let location = locations[button.tag]
+            controller.locationToEdit = location
+        }
+    }
     
     // MARK: - Private methods
     func updateLocations() {
@@ -117,41 +142,41 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         // 1. Use is type check operator to determine whether the annotation is a Location object, if not return nil do not make an annotation for any other kind of object
-            guard annotation is Location else {
-                return nil
-            }
+        guard annotation is Location else {
+            return nil
+        }
         
         // 2. Ask map view to re-use an annotation view object. If it cannot find a recyclable annotation view, create a new one
-            let identifier = "Location"
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-            if annotationView == nil {
-                let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                
-                // 3. Configure aesthetic of annotation view
-                pinView.isEnabled = true
-                pinView.canShowCallout = true
-                pinView.animatesDrop = false
-                pinView.pinTintColor = UIColor(red: 0.32, green: 0.82, blue: 0.4, alpha: 1)
-                
-                // 4. Create new UIButton ⓘ, target-action pattern connect “Touch Up Inside” with showLocationDetails()
-                let rightButton = UIButton(type: .detailDisclosure)
-                rightButton.addTarget(self, action: #selector(showLocationDetails), for: .touchUpInside)
-                pinView.rightCalloutAccessoryView = rightButton
-                
-                annotationView = pinView
-            }
+        let identifier = "Location"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        if annotationView == nil {
+            let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             
-            if let annotationView = annotationView {
-                annotationView.annotation = annotation
-                
-                // 5. Add button to annotation view’s accessory view
-                let button = annotationView.rightCalloutAccessoryView as! UIButton
-                if let index = locations.index(of: annotation
-                    as! Location) {
-                    button.tag = index
-                }
-            }
+            // 3. Configure aesthetic of annotation view
+            pinView.isEnabled = true
+            pinView.canShowCallout = true
+            pinView.animatesDrop = false
+            pinView.pinTintColor = UIColor(red: 0.32, green: 0.82, blue: 0.4, alpha: 1)
             
-            return annotationView
+            // 4. Create new UIButton ⓘ, target-action pattern connect “Touch Up Inside” with showLocationDetails()
+            let rightButton = UIButton(type: .detailDisclosure)
+            rightButton.addTarget(self, action: #selector(showLocationDetails), for: .touchUpInside)
+            pinView.rightCalloutAccessoryView = rightButton
+            
+            annotationView = pinView
+        }
+        
+        if let annotationView = annotationView {
+            annotationView.annotation = annotation
+            
+            // 5. Add button to annotation view’s accessory view
+            let button = annotationView.rightCalloutAccessoryView as! UIButton
+            if let index = locations.index(of: annotation
+                as! Location) {
+                button.tag = index
+            }
+        }
+        
+        return annotationView
     }
 }

@@ -378,11 +378,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="zqH-bq-lfY" id="vdg-zH-rPX"/>
+                        <segue destination="g8T-RG-6y5" kind="show" identifier="EditLocation" id="dS9-Aa-i7X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n28-c6-0q6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="848" y="1458"/>
+            <point key="canvasLocation" x="1609" y="1512"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -506,13 +507,13 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkK-Aa-gRB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="21" y="1458"/>
+            <point key="canvasLocation" x="21" y="1512"/>
         </scene>
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="tsC-1r-LJt"/>
+        <segue reference="dS9-Aa-i7X"/>
     </inferredMetricsTieBreakers>
 </document>
