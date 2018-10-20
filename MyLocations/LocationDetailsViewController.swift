@@ -96,8 +96,7 @@ class LocationDetailsViewController: UITableViewController {
         if indexPath.section == 0 && indexPath.row == 0 {
             descriptionTextView.becomeFirstResponder()
         } else if indexPath.section == 1 && indexPath.row == 0 {
-            takePhotoWithCamera()
-        }
+            pickPhoto()        }
     }
     
     // MARK: - Outlets
@@ -234,6 +233,35 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // Check whether there’s a camera present. If not call choosePhotoFromLibrary
+    func pickPhoto() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            showPhotoMenu()
+        } else {
+            choosePhotoFromLibrary()
+        }
+    }
+    
+    //Action sheet will appear with options at bottom of display
+    func showPhotoMenu() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let actCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(actCancel)
+        
+        let actPhoto = UIAlertAction(title: "Take Photo", style: .default, handler: {_ in
+            self.takePhotoWithCamera()
+        })
+        alert.addAction(actPhoto)
+        
+        let actLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: {_ in
+            self.choosePhotoFromLibrary()
+        })
+        alert.addAction(actLibrary)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
