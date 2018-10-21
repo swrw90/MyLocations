@@ -27,6 +27,7 @@ class LocationDetailsViewController: UITableViewController {
     var descriptionText = ""
     var managedObjectContext: NSManagedObjectContext!
     var image: UIImage?
+    var observer: Any!
     
     var locationToEdit: Location? {
         // When value is set to locationToEdit update LocationsViewController instance variables
@@ -208,7 +209,7 @@ class LocationDetailsViewController: UITableViewController {
         return dateFormatter.string(from: date)
     }
     
-//    Put image from parameter into image view, make image view visible, give it dimensions. Hide addPhoto label so it doesnt overlap imageView
+    //    Put image from parameter into image view, make image view visible, give it dimensions. Hide addPhoto label so it doesnt overlap imageView
     func show(image: UIImage) {
         imageView.image = image
         imageView.isHidden = false
@@ -229,12 +230,20 @@ class LocationDetailsViewController: UITableViewController {
     //MARK: - Notifications
     // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
     func listenForBackgroundNotification() {
-        NotificationCenter.default.addObserver(forName: Notification.Name.UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { _ in
-            if self.presentedViewController != nil {
-                self.dismiss(animated: false, completion: nil)
-                                                }
-            self.descriptionTextView.resignFirstResponder()
+        observer = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
+            
+            if let weakSelf = self {
+                if weakSelf.presentedViewController != nil {
+                    weakSelf.dismiss(animated: false, completion: nil)
+                }
+                weakSelf.descriptionTextView.resignFirstResponder()
+            }
         }
+    }
+    
+    deinit {
+        print("*** deinit \(self)")
+        NotificationCenter.default.removeObserver(observer)
     }
 }
 
