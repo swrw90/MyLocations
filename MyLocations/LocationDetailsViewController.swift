@@ -230,7 +230,7 @@ class LocationDetailsViewController: UITableViewController {
     //MARK: - Notifications
     // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
     func listenForBackgroundNotification() {
-        observer = NotificationCenter.default.addObserver(forName: Notification.Name.UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
+        observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
             
             if let weakSelf = self {
                 if weakSelf.presentedViewController != nil {
@@ -262,7 +262,10 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     // MARK:- Image Picker Delegates
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        image = info[UIImagePickerControllerEditedImage] as? UIImage
+        guard let image = info[.originalImage] as? UIImage else {
+            fatalError("Expected a dictionary containing an image, but was provided the following: \(info)")
+            return
+        }
         
         if let theImage = image {
             show(image: theImage)
