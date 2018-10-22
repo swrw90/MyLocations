@@ -231,13 +231,13 @@ class LocationDetailsViewController: UITableViewController {
     // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
     func listenForBackgroundNotification() {
         observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
-            
-            if let weakSelf = self {
-                if weakSelf.presentedViewController != nil {
-                    weakSelf.dismiss(animated: false, completion: nil)
+                
+                if let weakSelf = self {
+                    if weakSelf.presentedViewController != nil {
+                        weakSelf.dismiss(animated: false, completion: nil)
+                    }
+                    weakSelf.descriptionTextView.resignFirstResponder()
                 }
-                weakSelf.descriptionTextView.resignFirstResponder()
-            }
         }
     }
     
