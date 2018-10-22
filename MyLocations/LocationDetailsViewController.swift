@@ -26,6 +26,8 @@ class LocationDetailsViewController: UITableViewController {
     var date = Date()
     var descriptionText = ""
     var managedObjectContext: NSManagedObjectContext!
+    var image: UIImage?
+    var observer: Any!
     
     var locationToEdit: Location? {
         // When value is set to locationToEdit update LocationsViewController instance variables
@@ -71,15 +73,21 @@ class LocationDetailsViewController: UITableViewController {
     //MARK: - Table View Delegates
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 0 {
+        
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
             return 88
-        } else if indexPath.section == 2 && indexPath.row == 2 {
-            addressLabel.frame.size = CGSize(width: view.bounds.size.width - 120, height: 10000)
-            addressLabel.sizeToFit()
-            addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 16
             
+        case (1, _):
+            return imageView.isHidden ? 44 : 280
+            
+        case (2, 2):
+            addressLabel.frame.size = CGSize(width: view.bounds.size.width - 115, height: 10000)
+            addressLabel.sizeToFit()
+            addressLabel.frame.origin.x = view.bounds.size.width - addressLabel.frame.size.width - 15
             return addressLabel.frame.size.height + 20
-        } else {
+            
+        default:
             return 44
         }
     }
@@ -95,6 +103,10 @@ class LocationDetailsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
             descriptionTextView.becomeFirstResponder()
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            // Deselects the Add Photo row
+            tableView.deselectRow(at: indexPath, animated: true)
+            pickPhoto()
         }
     }
     
@@ -105,6 +117,8 @@ class LocationDetailsViewController: UITableViewController {
     @IBOutlet weak var longitudeLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var addPhotoLabel: UILabel!
     
     
     // MARK: - Actions
@@ -195,6 +209,14 @@ class LocationDetailsViewController: UITableViewController {
         return dateFormatter.string(from: date)
     }
     
+    //    Put image from parameter into image view, make image view visible, give it dimensions. Hide addPhoto label so it doesnt overlap imageView
+    func show(image: UIImage) {
+        imageView.image = image
+        imageView.isHidden = false
+        imageView.frame = CGRect(x: 10, y: 10, width: 260, height: 260)
+        addPhotoLabel.isHidden = true
+    }
+    
     
     //MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -202,6 +224,93 @@ class LocationDetailsViewController: UITableViewController {
             let controller = segue.destination as! CategoryPickerViewController
             controller.selectedCategoryName = categoryName
         }
+    }
+    
+    
+    //MARK: - Notifications
+    // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
+    func listenForBackgroundNotification() {
+        observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
+            
+            if let weakSelf = self {
+                if weakSelf.presentedViewController != nil {
+                    weakSelf.dismiss(animated: false, completion: nil)
+                }
+                weakSelf.descriptionTextView.resignFirstResponder()
+            }
+        }
+    }
+    
+    deinit {
+        print("*** deinit \(self)")
+        NotificationCenter.default.removeObserver(observer)
+    }
+}
+
+extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    //    Create UIImagePickerController instance, set its properties to configure the picker, set its delegate, and then present it
+    func takePhotoWithCamera() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    
+    // MARK:- Image Picker Delegates
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        image = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
+        
+        if let theImage = image {
+            show(image: theImage)
+        }
+        
+        tableView.reloadData()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func choosePhotoFromLibrary() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // Check whether there’s a camera present. If not call choosePhotoFromLibrary
+    func pickPhoto() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            showPhotoMenu()
+        } else {
+            choosePhotoFromLibrary()
+        }
+    }
+    
+    //Action sheet will appear with options at bottom of display
+    func showPhotoMenu() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let actCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(actCancel)
+        
+        let actPhoto = UIAlertAction(title: "Take Photo", style: .default, handler: {_ in
+            self.takePhotoWithCamera()
+        })
+        alert.addAction(actPhoto)
+        
+        let actLibrary = UIAlertAction(title: "Choose From Library", style: .default, handler: {_ in
+            self.choosePhotoFromLibrary()
+        })
+        alert.addAction(actLibrary)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
