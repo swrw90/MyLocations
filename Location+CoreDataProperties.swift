@@ -40,6 +40,7 @@ extension Location {
         return UIImage(contentsOfFile: photoURL.path)
     }
     
+//    Generate a unique ID for each Location object
     class func nextPhotoID() -> Int {
         let userDefaults = UserDefaults.standard
         let currentID = userDefaults.integer(forKey: "PhotoID") + 1

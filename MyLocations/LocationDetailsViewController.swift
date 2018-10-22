@@ -142,6 +142,23 @@ class LocationDetailsViewController: UITableViewController {
         location.date = date
         location.placemark = placemark
         
+        // Save image
+        if let image = image {
+            // 1. Get a new ID and assign it to the Location’s photoID property
+            if !location.hasPhoto {
+                location.photoID = Location.nextPhotoID() as NSNumber
+            }
+            // 2 Converts the UIImage to JPEG format and returns a Data object
+            if let data = image.jpegData(compressionQuality: 0.5) {
+                // 3 Save the Data object to the path given by the photoURL property
+                do {
+                    try data.write(to: location.photoURL, options: .atomic)
+                } catch {
+                    print("Error writing file: \(error)")
+                }
+            }
+        }
+        
         do {
             try managedObjectContext.save()
             afterDelay(0.6) {
