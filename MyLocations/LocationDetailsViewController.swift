@@ -283,7 +283,7 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     
     
     // MARK:- Image Picker Delegates
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+  @objc  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         image = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         
