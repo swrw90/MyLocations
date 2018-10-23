@@ -10,6 +10,7 @@
 import Foundation
 import CoreData
 import CoreLocation
+import UIKit
 
 extension Location {
 
@@ -23,5 +24,7 @@ extension Location {
     @NSManaged public var locationDescription: String
     @NSManaged public var longitude: Double
     @NSManaged var placemark: CLPlacemark?
+    @NSManaged public var photoID: NSNumber?
 
+    
 }

@@ -48,6 +48,11 @@ class LocationDetailsViewController: UITableViewController {
         
         if let location = locationToEdit {
             title = "Edit Location"
+            if location.hasPhoto {
+                if let theImage = location.photoImage {
+                    show(image: theImage)
+                }
+            }
         }
         
         descriptionTextView.text = descriptionText
@@ -133,6 +138,7 @@ class LocationDetailsViewController: UITableViewController {
         } else {
             hudView.text = "Tagged"
             location = Location(context: managedObjectContext)
+            location.photoID = nil
         }
         
         location.locationDescription = descriptionTextView.text
@@ -141,6 +147,23 @@ class LocationDetailsViewController: UITableViewController {
         location.longitude = coordinate.longitude
         location.date = date
         location.placemark = placemark
+        
+        // Save image
+        if let image = image {
+            // 1. Get a new ID and assign it to the Location’s photoID property
+            if !location.hasPhoto {
+                location.photoID = Location.nextPhotoID() as NSNumber
+            }
+            // 2 Converts the UIImage to JPEG format and returns a Data object
+            if let data = image.jpegData(compressionQuality: 0.5) {
+                // 3 Save the Data object to the path given by the photoURL property
+                do {
+                    try data.write(to: location.photoURL, options: .atomic)
+                } catch {
+                    print("Error writing file: \(error)")
+                }
+            }
+        }
         
         do {
             try managedObjectContext.save()
@@ -231,13 +254,13 @@ class LocationDetailsViewController: UITableViewController {
     // Adds observer for UIApplicationDidEnterBackground notification. When notification is received NotificationCenter calls the closure
     func listenForBackgroundNotification() {
         observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) { [weak self] _ in
-            
-            if let weakSelf = self {
-                if weakSelf.presentedViewController != nil {
-                    weakSelf.dismiss(animated: false, completion: nil)
+                
+                if let weakSelf = self {
+                    if weakSelf.presentedViewController != nil {
+                        weakSelf.dismiss(animated: false, completion: nil)
+                    }
+                    weakSelf.descriptionTextView.resignFirstResponder()
                 }
-                weakSelf.descriptionTextView.resignFirstResponder()
-            }
         }
     }
     
@@ -260,7 +283,7 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     
     
     // MARK:- Image Picker Delegates
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+  @objc  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         image = info[UIImagePickerController.InfoKey.editedImage.rawValue] as? UIImage
         
