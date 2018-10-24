@@ -35,12 +35,14 @@ class LocationCell: UITableViewCell {
         
         photoImageView.image = thumbnail(for: location)
     }
-
+//  Make a new UIView filled with dark gray. This new view is placed on top of the cells background user taps the cell
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        let selection = UIView(frame: CGRect.zero)
+        selection.backgroundColor = UIColor(white: 1.0, alpha: 0.2)
+        selectedBackgroundView = selection
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
