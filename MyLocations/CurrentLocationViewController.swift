@@ -9,10 +9,12 @@
 import UIKit
 import CoreLocation
 import CoreData
+import AudioToolbox
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate, CAAnimationDelegate {
     
     var timer: Timer?
+    var soundID: SystemSoundID = 0
     var managedObjectContext: NSManagedObjectContext!
     
     var logoVisible = false
@@ -42,6 +44,7 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         updateLabels()
+        loadSoundEffect("Sound.caf")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,6 +156,10 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                     // Check placemarks array contains at least one placemark, set last placemark in array to placemark property
                     // Else the coordinates arent significantly differnt in last 10sec stop fetching and use current result
                     if error == nil, let p = placemarks, !p.isEmpty {
+                          if self.placemark == nil {
+                            print("FIRST TIME!")
+                            self.playSoundEffect()
+                        }
                         self.placemark = p.last!
                     } else {
                         self.placemark = nil
@@ -328,8 +335,25 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     //if app is updating button text changes to stop
     func configureGetButton() {
+        let spinnerTag = 1000
+        
         if updatingLocation {
             getButton.setTitle("Stop", for: .normal)
+            
+            if view.viewWithTag(spinnerTag) == nil {
+                let spinner = UIActivityIndicatorView(style: .white)
+                spinner.center = messageLabel.center
+                spinner.center.y += spinner.bounds.size.height/2 + 15
+                spinner.startAnimating()
+                spinner.tag = spinnerTag
+                containerView.addSubview(spinner)
+            }
+        } else {
+            getButton.setTitle("Get My Location", for: .normal)
+            
+            if let spinner = view.viewWithTag(spinnerTag) {
+                spinner.removeFromSuperview()
+            }
         }
     }
     
@@ -387,5 +411,25 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         containerView.center.y = 40 + containerView.bounds.size.height / 2
         logoButton.layer.removeAllAnimations()
         logoButton.removeFromSuperview()
+    }
+    
+    // MARK:- Sound effects
+    func loadSoundEffect(_ name: String) {
+        if let path = Bundle.main.path(forResource: name, ofType: nil) {
+            let fileURL = URL(fileURLWithPath: path, isDirectory: false)
+            let error = AudioServicesCreateSystemSoundID(fileURL as CFURL, &soundID)
+            if error != kAudioServicesNoError {
+                print("Error code \(error) loading sound: \(path)")
+            }
+        }
+    }
+    
+    func unloadSoundEffect() {
+        AudioServicesDisposeSystemSoundID(soundID)
+        soundID = 0
+    }
+    
+    func playSoundEffect() {
+        AudioServicesPlaySystemSound(soundID)
     }
 }
