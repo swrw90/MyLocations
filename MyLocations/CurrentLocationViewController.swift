@@ -376,4 +376,16 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             controller.managedObjectContext = managedObjectContext
         }
     }
+    
+    
+    // MARK:- Animation Delegate Methods
+    
+//    removes the logo button
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        containerView.layer.removeAllAnimations()
+        containerView.center.x = view.bounds.size.width / 2
+        containerView.center.y = 40 + containerView.bounds.size.height / 2
+        logoButton.layer.removeAllAnimations()
+        logoButton.removeFromSuperview()
+    }
 }
