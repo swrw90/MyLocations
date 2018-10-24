@@ -15,6 +15,7 @@
 		C76341B721730B270028BFFC /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B521730B270028BFFC /* Location+CoreDataClass.swift */; };
 		C76341B821730B270028BFFC /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */; };
 		C76341BA21793EBA0028BFFC /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76341B921793EBA0028BFFC /* LocationsViewController.swift */; };
+		C77267C8217FEF7500A87F70 /* String+AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77267C7217FEF7500A87F70 /* String+AddText.swift */; };
 		C77A4F372172ADA100B90E4B /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F362172ADA100B90E4B /* HudView.swift */; };
 		C77A4F392172C13E00B90E4B /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F382172C13E00B90E4B /* Functions.swift */; };
 		C77A4F3C2173013000B90E4B /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C77A4F3A2173013000B90E4B /* DataModel.xcdatamodeld */; };
@@ -37,6 +38,7 @@
 		C76341B521730B270028BFFC /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C76341B621730B270028BFFC /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C76341B921793EBA0028BFFC /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
+		C77267C7217FEF7500A87F70 /* String+AddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+AddText.swift"; sourceTree = "<group>"; };
 		C77A4F362172ADA100B90E4B /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		C77A4F382172C13E00B90E4B /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		C77A4F3B2173013000B90E4B /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		C7D1DE8B2168521C00FDF0AE = {
 			isa = PBXGroup;
 			children = (
+				C77267C7217FEF7500A87F70 /* String+AddText.swift */,
 				C7477539217FD1170026EEE5 /* UIImage+Resize.swift */,
 				C7366972217AEF2400F4007D /* MapViewController.swift */,
 				C76341B521730B270028BFFC /* Location+CoreDataClass.swift */,
@@ -204,6 +207,7 @@
 				C77A4F392172C13E00B90E4B /* Functions.swift in Sources */,
 				C7D1DE982168521C00FDF0AE /* AppDelegate.swift in Sources */,
 				C76341B721730B270028BFFC /* Location+CoreDataClass.swift in Sources */,
+				C77267C8217FEF7500A87F70 /* String+AddText.swift in Sources */,
 				C726768F2171424900D06CA2 /* CategoryPickerViewController.swift in Sources */,
 				C7D1DE9A2168521C00FDF0AE /* CurrentLocationViewController.swift in Sources */,
 			);
