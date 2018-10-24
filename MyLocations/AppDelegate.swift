@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var managedObjectContext: NSManagedObjectContext = self.persistentContainer.viewContext
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        customizeAppearance()
         listenForFatalCoreDataNotifications()
         
         let tabController = window!.rootViewController as! UITabBarController
@@ -54,6 +55,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         print(applicationDocumentDirectory)
         return true
+    }
+    
+//   Change the background color of all navigation bars and tab bars
+    func customizeAppearance() {
+        UINavigationBar.appearance().barTintColor = UIColor.black
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white ]
+        
+        UITabBar.appearance().barTintColor = UIColor.black
+        
+        let tintColor = UIColor(red: 255/255.0, green: 238/255.0, blue: 136/255.0, alpha: 1.0)
+        UITabBar.appearance().tintColor = tintColor
     }
     
     
